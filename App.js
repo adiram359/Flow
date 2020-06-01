@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GoalBar from "./GoalBar.jsx";
+import GoalBar from "./GoalBar.js";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button, ScrollView } from 'react-native';
 
 export default function App() {
@@ -21,12 +21,7 @@ export default function App() {
 
   return (
     <View style = {styles.container}>
-      <TextInput
-        placeholder="Type in Your Goal ..."
-        style={styles.goalinput}
-        onChangeText={goalInput}
-        value = {enteredGoal}
-        />
+      <GoalBar goalInput = {goalInput} enteredGoal = {enteredGoal} />
       <View style={styles.buttonView}>
         <Button
           title="Add Goal!"
