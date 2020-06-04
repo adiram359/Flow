@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import GoalBar from "./GoalBar.js";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button, ScrollView } from 'react-native';
+import Goal from "./Goal.js";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button, ScrollView, Modal} from 'react-native';
 // import SwipeableViews from 'react-swipeable-views';
 
-const GoalsPage = (props) =>{
-  const [enteredGoal, setEnteredGoal] = useState('')
-  const [goalList, setGoalList] = useState([])
-  const removeGoal = (goalTitle) => {
-    setGoalList(goalList.filter((goal) => goal !== goalTitle))
+const GoalsPage = ({goHome, goalList, setGoalList, removeGoal}) =>{
 
-  }
+  const [enteredGoal, setEnteredGoal] = useState('')
   const goalInput = (goal) => {
     setEnteredGoal(goal)
   }
@@ -17,40 +14,43 @@ const GoalsPage = (props) =>{
     setGoalList((curr) => [...curr, enteredGoal])
   }
 
+
   return (
-    <View style = {styles.container}>
-
-      <GoalBar goalInput = {goalInput} enteredGoal = {enteredGoal} />
+    <View style={{backgroundColor: "#E8DAEF"}}>
 
 
-      <View style={styles.buttonView}>
-        <Button
-          title="Add Goal!"
-          color="#17202A"
-          onPress={addGoal}
-        />
+
+
+      <TouchableOpacity activeOpacity={0.5} style = {styles.homebutton} onPress={() => goHome('Home')}>
+        <Text style = {styles.homebuttontext}> Home </Text>
+      </TouchableOpacity>
+      <View style = {styles.container}>
+
+
+        <GoalBar goalInput = {goalInput} enteredGoal = {enteredGoal} />
+
+
+        <View style={styles.buttonView}>
+          <Button
+            title="Add Goal!"
+            color="#17202A"
+            onPress={addGoal}
+          />
+        </View>
+
+        <ScrollView style={styles.scroll}>
+          {goalList.map((goal) =>
+            <Goal key={goal} text={goal} removeGoal={() => removeGoal(goal)} />
+          )}
+        </ScrollView>
       </View>
-
-      <ScrollView>
-        {goalList.map((goal) =>
-          <View key={goal}style={styles.goalContainer}>
-            <Text key={goal}style = {styles.goal}>
-              {goal}
-            </Text>
-              <Button onPress={() => removeGoal(goal)} color="#E74C3C" title= "X"/>
-          </View>
-
-        )}
-      </ScrollView>
-
     </View>
   );
 }
 export default GoalsPage;
-
 const styles = StyleSheet.create({
   container: {
-    marginTop:200,
+    marginTop:0,
     alignItems:"center",
     height:"100%",
     width:"100%",
@@ -71,19 +71,60 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
   },
-  goal: {
-    margin:3,
-    fontSize: 25,
-  },
-  goalContainer: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    margin:3,
-    backgroundColor: "#F9E79F",
-    borderColor: "#F1C40F",
-    borderWidth:1,
+  homebutton: {
+    alignItems: 'flex-start',
+    marginTop: 50,
+    marginLeft: 20,
+    width: "20%",
+    height: "5%",
     borderRadius: 10,
-    width: 300,
-    height: 40,
+    backgroundColor: "#E74C3C",
   },
+  homebuttontext: {
+    fontSize:20,
+    marginLeft: 10,
+    marginTop: 10,
+    color: "white",
+    fontWeight: "700"
+  },
+  goalInfoModal: {
+    marginTop: 75,
+    alignSelf: 'center',
+    width:"80%",
+    backgroundColor:"white",
+    height: "80%",
+    borderRadius:10,
+
+  },
+  exitModalButton: {
+    width:30,
+    height:30,
+    borderRadius:20,
+    backgroundColor: "#D6DBDF",
+    alignSelf: "flex-start",
+    marginTop: 10,
+    marginLeft: 10,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  xButton: {
+    color: "#5D6D7E",
+    fontSize:20,
+    fontWeight: "bold",
+  },
+  removeGoalButton: {
+    marginTop:610,
+    backgroundColor: "#E74C3C",
+    height: 40,
+    width: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    alignSelf:"center",
+
+  },
+  removeGoalText: {
+    color:"white",
+    fontWeight:"bold"
+  }
 });

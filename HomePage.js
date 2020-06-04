@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, FlatList, TextInput, TouchableOpacity} from 'react-native';
+// import ApiCalendar from 'react-google-calendar-api';
 
 const HomePage = ({setPage}) => {
-  const buttonTitles = ["Home", "Settings", "Surveys", "Goals", "About Flow"]
+  const buttonTitles = ["Settings", "Surveys", "Goals", "About Flow"]
 
   return (
     <View style = {styles.homepage}>
